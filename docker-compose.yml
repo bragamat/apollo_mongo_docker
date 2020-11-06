@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/wmong
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      MONGODB_USERNAME: docker
+      MONGODB_ROOT_PASSWORD: docker
+      DB_HOST: db
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: docker
+      MONGODB_USERNAME: docker
+      MONGODB_ROOT_PASSWORD: docker
+      ALLOW_EMPTY_PASSWORD: "yes"
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+volumes:
+  mongo_db:
